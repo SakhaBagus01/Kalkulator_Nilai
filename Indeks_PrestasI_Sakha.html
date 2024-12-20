@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menghitung Indeks Prestasi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #56b4ce, #0072ff);
+            color: #ffffff; 
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            transition: transform 0.3s;
+            color: #333333; 
+            animation: fadeInContainer 1s ease-in-out;
+        }
+
+        @keyframes fadeInContainer {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #0072ff; 
+            animation: fadeInTitle 1.5s ease-in-out;
+        }
+
+        @keyframes fadeInTitle {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #dee2e6;
+            color: #333333; 
+            animation: fadeInTable 2s ease-in-out;
+        }
+
+        @keyframes fadeInTable {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        th {
+            background-color: #0072ff;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 5px;
+            font-size: 16px;
+            color: #333333; 
+            animation: fadeInInput 2s ease-in-out;
+        }
+
+        @keyframes fadeInInput {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        input[type="submit"], input[type="button"] {
+            background-color: #0072ff;
+            color: #ffffff; 
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInButton 2.5s ease-in-out;
+        }
+
+        @keyframes fadeInButton {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        input[type="submit"] i, input[type="button"] i {
+            margin-right: 10px;
+        }
+
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        #result p {
+            margin: 5px 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333333; 
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2><i class="fas fa-calculator"></i> Menghitung Indeks Prestasi</h2>
+
+    <form onsubmit="return hitungIP(event)">
+        <table>
+            <tr>
+                <th>Quis (10%):</th>
+                <th>Tugas (20%):</th>
+                <th>UTS (30%):</th>
+                <th>UAS (40%):</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="quis" value="90"></td>
+                <td><input type="text" id="tugas" value="70"></td>
+                <td><input type="text" id="uts" value="70"></td>
+                <td><input type="text" id="uas" value="70"></td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Hitung" class="submit-btn">
+        <input type="button" value="Ulang" onclick="ulang()" class="reset-btn">
+    </form>
+
+    <div id="result">
+        <h3>Hasil</h3>
+        <p>Indeks Prestasi: <input type="text" id="ip" readonly></p>
+        <p>Grade: <input type="text" id="grade" readonly></p>
+    </div>
+</div>
+
+<script>
+    function hitungIP(event) {
+        event.preventDefault(); 
+
+     
+        var quis = parseFloat(document.getElementById("quis").value) || 0;
+        var tugas = parseFloat(document.getElementById("tugas").value) || 0;
+        var uts = parseFloat(document.getElementById("uts").value) || 0;
+        var uas = parseFloat(document.getElementById("uas").value) || 0;
+
+        
+        var ip = (quis * 0.1) + (tugas * 0.2) + (uts * 0.3) + (uas * 0.4);
+
+      
+        document.getElementById("ip").value = ip.toFixed(2);
+
+        
+        var grade = '';
+        if (ip >= 80) {
+            grade = 'A';
+        } else if (ip >= 68) {
+            grade = 'B';
+        } else if (ip >= 55) {
+            grade = 'C';
+        } else if (ip >= 38) {
+            grade = 'D';
+        } else {
+            grade = 'E';
+        }
+
+       
+        document.getElementById("grade").value = grade;
+    }
+
+    function ulang() {
+       
+        document.getElementById("quis").value = "";
+        document.getElementById("tugas").value = "";
+        document.getElementById("uts").value = "";
+        document.getElementById("uas").value = "";
+        document.getElementById("ip").value = "";
+        document.getElementById("grade").value = "";
+    }
+</script>
+</body>
+</html>
